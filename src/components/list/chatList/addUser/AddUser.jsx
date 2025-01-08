@@ -8,7 +8,7 @@ const AddUser = () => {
         <button>Search</button>
       </form>
       <div className="user">
-        <div className="deatail">
+        <div className="detail">
           <img src="./avatar.png" alt="" />
           <span>Pippo</span>
         </div>
