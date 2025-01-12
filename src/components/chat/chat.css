@@ -65,9 +65,11 @@
     .message {
       max-width: 70%;
       display: flex;
+      align-self: flex-start;
       gap: 20px;
 
       &.own {
+        max-width: 70%;
         align-self: flex-end;
 
         .texts {

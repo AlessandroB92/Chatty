@@ -26,18 +26,17 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true)
-    toast.success("Accessoo Effettuato");
     const formData = new FormData(e.target);
-
+    
     const { email, password } = Object.fromEntries(formData);
-
+    
     try {
-
+      
       await signInWithEmailAndPassword(auth, email, password)
+      toast.success("Accessoo Effettuato");
 
     }catch (err) {
-      console.log(err);
-      toast.error(err.message);
+      toast.error("Credenziali errate");
     } finally {
       setLoading(false);
     }
@@ -67,7 +66,7 @@ const Login = () => {
         chats: [],
       });
 
-      toast.success("Account created! Login now!");
+      toast.success("Account Creato");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
