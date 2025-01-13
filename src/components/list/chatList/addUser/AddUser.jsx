@@ -2,20 +2,17 @@ import {
   arrayUnion,
   collection,
   doc,
-  getDoc,
   getDocs,
-  query,
   serverTimestamp,
   setDoc,
   updateDoc,
-  where,
 } from "firebase/firestore";
 import "./addUser.css";
 import { db } from "../../../../lib/firebase";
 import { useState } from "react";
 import { useUserStore } from "../../../../lib/userStore";
 
-const AddUser = () => {
+const AddUser = ({ setAddMode }) => {
   const [user, setUser] = useState(null);
 
   const { currentUser } = useUserStore();
@@ -24,23 +21,26 @@ const AddUser = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const username = formData.get("username").toLowerCase();
+
     try {
       const userRef = collection(db, "users");
-  
+
       const querySnapshot = await getDocs(userRef);
-  
-      const foundUser = querySnapshot.docs.find(doc => doc.data().username.toLowerCase() === username);
-  
-      if (foundUser) {
-        setUser(foundUser.data());
+
+      const foundUsers = querySnapshot.docs.filter((doc) =>
+        doc.data().username.toLowerCase().includes(username)
+      );
+
+      if (foundUsers.length > 0) {
+        setUser(foundUsers.map((doc) => doc.data()));
       } else {
-        console.log("User not found");
+        console.log("No users found");
+        setUser([]);
       }
     } catch (err) {
       console.log(err);
     }
   };
-  
 
   const handleAdd = async () => {
     const chatRef = collection(db, "chats");
@@ -73,6 +73,8 @@ const AddUser = () => {
       });
 
       console.log(newChatRef.id);
+
+      setAddMode(false);
     } catch (err) {
       console.log(err);
     }
@@ -84,13 +86,17 @@ const AddUser = () => {
         <input type="text" placeholder="Username" name="username" />
         <button>Search</button>
       </form>
-      {user && (
-        <div className="user">
-          <div className="detail">
-            <img src={user.avatar || "./avatar.png"} alt="" />
-            <span>{user.username}</span>
-          </div>
-          <button onClick={handleAdd}>Add User</button>
+      {user && user.length > 0 && (
+        <div className="users">
+          {user.map((u, index) => (
+            <div key={index} className="user">
+              <div className="detail">
+                <img src={u.avatar || "./avatar.png"} alt="" />
+                <span>{u.username}</span>
+              </div>
+              <button onClick={handleAdd}>Add User</button>
+            </div>
+          ))}
         </div>
       )}
     </div>

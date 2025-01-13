@@ -42,8 +42,6 @@ const Chat = () => {
     };
   }, [chatId]);
 
-  console.log(chat);
-
   const handleEmoji = (e) => {
     setText((prev) => prev + e.emoji);
     setOpen(false);
