@@ -23,22 +23,24 @@ const AddUser = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const username = formData.get("username");
-
+    const username = formData.get("username").toLowerCase();
     try {
       const userRef = collection(db, "users");
-
-      const q = query(userRef, where("username", "==", username));
-
-      const querySnapoShot = await getDocs(q);
-
-      if (!querySnapoShot.empty) {
-        setUser(querySnapoShot.docs[0].data());
+  
+      const querySnapshot = await getDocs(userRef);
+  
+      const foundUser = querySnapshot.docs.find(doc => doc.data().username.toLowerCase() === username);
+  
+      if (foundUser) {
+        setUser(foundUser.data());
+      } else {
+        console.log("User not found");
       }
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   const handleAdd = async () => {
     const chatRef = collection(db, "chats");
