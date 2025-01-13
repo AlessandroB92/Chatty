@@ -34,13 +34,12 @@
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
-        text-decoration: underline;
 
         img {
-          width: 50px;
-          height: 50px;
+          width: 4rem;
+          height: 4rem;
           object-fit: cover;
-          border-radius: 10px;
+          border-radius: 50%;
           opacity: 0.6;
         }
       }

@@ -30,7 +30,8 @@ const Chat = () => {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  }, [chat?.messages]);
+  
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "chats", chatId), (res) => {
@@ -117,7 +118,7 @@ const Chat = () => {
           <img src={user?.avatar || "./avatar.png"} alt="" />
           <div className="texts">
             <span>{user?.username}</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            <p></p>
           </div>
         </div>
         <div className="icons">
@@ -127,29 +128,35 @@ const Chat = () => {
         </div>
       </div>
       <div className="center">
-        {chat?.messages?.map((message) => (
-          <div
-            className={
-              message.senderId === currentUser.id ? "message own" : "message"
-            }
-            key={message?.createdAt}
-          >
-            <div className="texts">
-              {message.img && <img src={message.img} alt="" />}
-              <p>{message.text}</p>
-              {/*  <span>{}message</span> */}
-            </div>
-          </div>
-        ))}
-        {img.url && (
-          <div className="nessage own">
-            <div className="text">
-              <img src={img.url} alt="" />
-            </div>
-          </div>
-        )}
-        <div ref={endRef}></div>
+  {chat?.messages?.map((message) => (
+    <div
+      className={
+        message.senderId === currentUser.id ? "message own" : "message"
+      }
+      key={message?.createdAt}
+    >
+      <div className="texts">
+        {message.img && <img src={message.img} alt="" />}
+        <p>{message.text}</p>
+        <span className="timestamp">
+          {new Date(message.createdAt.seconds * 1000).toLocaleTimeString("it-IT", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </span>
       </div>
+    </div>
+  ))}
+  {img.url && (
+    <div className="message own">
+      <div className="texts">
+        <img src={img.url} alt="" />
+      </div>
+    </div>
+  )}
+  <div ref={endRef}></div>
+</div>
+
       <div className="bottom">
         <div className="icons">
           <label htmlFor="file">
