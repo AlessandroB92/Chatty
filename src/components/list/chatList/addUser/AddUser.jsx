@@ -33,7 +33,6 @@ const AddUser = ({ setAddMode }) => {
       if (foundUsers.length > 0) {
         setUsers(foundUsers.map((doc) => ({ id: doc.id, ...doc.data() })));
       } else {
-        console.log("No users found");
         setUsers([]);
       }
     } catch (err) {
@@ -70,8 +69,6 @@ const AddUser = ({ setAddMode }) => {
           updatedAt: Date.now(),
         }),
       });
-
-      console.log("Chat creata con ID:", newChatRef.id);
 
       setAddMode(false);
     } catch (err) {
