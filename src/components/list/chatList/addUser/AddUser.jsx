@@ -13,8 +13,7 @@ import { useState } from "react";
 import { useUserStore } from "../../../../lib/userStore";
 
 const AddUser = ({ setAddMode }) => {
-  const [user, setUser] = useState(null);
-
+  const [users, setUsers] = useState([]);
   const { currentUser } = useUserStore();
 
   const handleSearch = async (e) => {
@@ -32,17 +31,17 @@ const AddUser = ({ setAddMode }) => {
       );
 
       if (foundUsers.length > 0) {
-        setUser(foundUsers.map((doc) => doc.data()));
+        setUsers(foundUsers.map((doc) => ({ id: doc.id, ...doc.data() })));
       } else {
         console.log("No users found");
-        setUser([]);
+        setUsers([]);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleAdd = async () => {
+  const handleAdd = async (selectedUser) => {
     const chatRef = collection(db, "chats");
     const userChatRef = collection(db, "userchats");
 
@@ -54,7 +53,7 @@ const AddUser = ({ setAddMode }) => {
         messages: [],
       });
 
-      await updateDoc(doc(userChatRef, user.id), {
+      await updateDoc(doc(userChatRef, selectedUser.id), {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
@@ -67,12 +66,12 @@ const AddUser = ({ setAddMode }) => {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: user.id,
+          receiverId: selectedUser.id,
           updatedAt: Date.now(),
         }),
       });
 
-      console.log(newChatRef.id);
+      console.log("Chat creata con ID:", newChatRef.id);
 
       setAddMode(false);
     } catch (err) {
@@ -84,17 +83,17 @@ const AddUser = ({ setAddMode }) => {
     <div className="addUser">
       <form onSubmit={handleSearch}>
         <input type="text" placeholder="Username" name="username" />
-        <button>Search</button>
+        <button>Cerca</button>
       </form>
-      {user && user.length > 0 && (
+      {users.length > 0 && (
         <div className="users">
-          {user.map((u, index) => (
-            <div key={index} className="user">
+          {users.map((u) => (
+            <div key={u.id} className="user">
               <div className="detail">
                 <img src={u.avatar || "./avatar.png"} alt="" />
                 <span>{u.username}</span>
               </div>
-              <button onClick={handleAdd}>Add User</button>
+              <button onClick={() => handleAdd(u)}>Add User</button>
             </div>
           ))}
         </div>
