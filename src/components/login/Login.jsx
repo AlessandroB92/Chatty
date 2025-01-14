@@ -5,14 +5,15 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import "./login.css";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload";
+import { useUserStore } from "../../lib/userStore"; // Hook per lo stato globale
 
 const Login = () => {
+  const { fetchUserInfo } = useUserStore(); // Sincronizza con lo stato globale
   const [avatar, setAvatar] = useState({
     file: null,
     url: "",
   });
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleAvatar = (e) => {
     if (e.target.files[0]) {
@@ -25,17 +26,17 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     const formData = new FormData(e.target);
-    
     const { email, password } = Object.fromEntries(formData);
-    
-    try {
-      
-      await signInWithEmailAndPassword(auth, email, password)
-      toast.success("Accessoo Effettuato");
 
-    }catch (err) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success("Accesso Effettuato");
+
+      // Aggiorna lo stato globale con i dati dell'utente
+      fetchUserInfo(auth.currentUser?.uid);
+    } catch (err) {
       toast.error("Credenziali errate");
     } finally {
       setLoading(false);
@@ -44,15 +45,14 @@ const Login = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     const formData = new FormData(e.target);
-
     const { username, email, password } = Object.fromEntries(formData);
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      const imgUrl = await upload(avatar.file)
+      const imgUrl = await upload(avatar.file);
 
       await setDoc(doc(db, "users", res.user.uid), {
         username,
@@ -67,11 +67,14 @@ const Login = () => {
       });
 
       toast.success("Account Creato");
+
+      // Aggiorna lo stato globale con i dati dell'utente
+      fetchUserInfo(res.user.uid);
     } catch (err) {
       console.log(err);
       toast.error(err.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 

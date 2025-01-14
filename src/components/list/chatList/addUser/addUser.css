@@ -1,9 +1,9 @@
 .addUser {
   width: max-content;
   height: max-content;
-  padding: 30px;
+  padding: 1.875rem;
   background-color: rgba(17, 25, 40, 0.65);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -13,18 +13,18 @@
 
   form {
     display: flex;
-    gap: 20px;
+    gap: 1.25rem;
 
     input {
-      padding: 20px;
-      border-radius: 10px;
+      padding: 1.25rem;
+      border-radius: 0.625rem;
       border: none;
       outline: none;
     }
 
     button {
-      padding: 20px;
-      border-radius: 10px;
+      padding: 1.25rem;
+      border-radius: 0.625rem;
       background-color: #1a73e8;
       color: white;
       border: none;
@@ -33,7 +33,7 @@
   }
 
   .user {
-    margin-top: 50px;
+    margin-top: 3.125rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -41,19 +41,19 @@
     .detail {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 1.25rem;
 
       img{
-        width: 50px;
-        height: 50px;
+        width: 3.125rem;
+        height: 3.125rem;
         border-radius: 50%;
         object-fit: cover;
       }
     }
 
     button{
-        padding: 10px;
-      border-radius: 10px;
+        padding: 0.625rem;
+      border-radius: 0.625rem;
       background-color: #1a73e8;
       color: white;
       border: none;

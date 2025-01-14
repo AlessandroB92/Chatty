@@ -4,12 +4,12 @@
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 0.375rem;
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #2d2e32a2;
-    border-radius: 12px;
+    border-radius: 0.75rem;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -18,7 +18,7 @@
 
   ::-webkit-scrollbar-track {
     background-color: #6161613f;
-    border-radius: 12px;
+    border-radius: 0.75rem;
   }
 }
 body {
@@ -35,14 +35,14 @@ body {
   width: 90vw;
   height: 90vh;
   background-color: rgba(17, 25, 40, 0.75);
-  backdrop-filter: blur(19px) saturate(180%);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.125);
+  backdrop-filter: blur(1.1875rem) saturate(180%);
+  border-radius: 0.75rem;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.125);
 }
 
 .loading{
-  padding: 50px;
-  font-size: 36px;
-  border-radius: 10px;
+  padding: 3.125rem;
+  font-size: 2.25rem;
+  border-radius: 0.625rem;
   background-color: rgba(17, 25, 40, 0.9);
 }
