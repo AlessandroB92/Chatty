@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../lib/firebase"; // Assicurati che i percorsi siano corretti
+import { auth, db } from "../lib/firebase";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 
 const useUserStatus = () => {
@@ -12,7 +12,6 @@ const useUserStatus = () => {
       if (user) {
         setUser(user);
         setIsOnline(true);
-        // Imposta lo stato dell'utente su "online" in Firestore
         await updateDoc(doc(db, "users", user.uid), {
           status: "online",
           lastActive: serverTimestamp(),
@@ -23,7 +22,6 @@ const useUserStatus = () => {
       }
     });
 
-    // Quando l'utente esce o il componente si smonta, imposta lo stato su "offline"
     return () => {
       if (user) {
         updateDoc(doc(db, "users", user.uid), {

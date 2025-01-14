@@ -15,7 +15,6 @@ const ChatList = () => {
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
 
-  // Usa il custom hook per monitorare lo stato dell'utente corrente
   const { isOnline } = useUserStatus(); 
 
   useEffect(() => {
@@ -112,7 +111,6 @@ const ChatList = () => {
                 ? "User"
                 : chat.user.username}
             </span>
-            {/* Mostra lo stato online/offline accanto al nome dell'utente */}
             <span className={`status ${chat.user.status === "online" ? "online" : "offline"}`}>
               {chat.user.status === "online" ? "Online" : "Offline"}
             </span>
