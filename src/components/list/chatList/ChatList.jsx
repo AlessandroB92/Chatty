@@ -5,6 +5,7 @@ import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
+import useUserStatus from "../../../lib/useUserStatus";
 
 const ChatList = () => {
   const [chats, setChats] = useState([]);
@@ -13,6 +14,9 @@ const ChatList = () => {
 
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
+
+  // Usa il custom hook per monitorare lo stato dell'utente corrente
+  const { isOnline } = useUserStatus(); 
 
   useEffect(() => {
     const unSub = onSnapshot(
@@ -108,13 +112,15 @@ const ChatList = () => {
                 ? "User"
                 : chat.user.username}
             </span>
+            {/* Mostra lo stato online/offline accanto al nome dell'utente */}
+            <span className={`status ${chat.user.status === "online" ? "online" : "offline"}`}>
+              {chat.user.status === "online" ? "Online" : "Offline"}
+            </span>
             <p>{chat.lastMessage}</p>
           </div>
         </div>
       ))}
-      {addMode && (
-        <AddUser setAddMode={setAddMode} />
-      )}
+      {addMode && <AddUser setAddMode={setAddMode} />}
     </div>
   );
 };
