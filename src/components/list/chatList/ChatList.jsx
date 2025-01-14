@@ -14,8 +14,7 @@ const ChatList = () => {
 
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
-
-  const { isOnline } = useUserStatus(); 
+  const { usersStatus } = useUserStatus();  // Stato di tutti gli utenti
 
   useEffect(() => {
     const unSub = onSnapshot(
@@ -111,8 +110,8 @@ const ChatList = () => {
                 ? "User"
                 : chat.user.username}
             </span>
-            <span className={`status ${chat.user.status === "online" ? "online" : "offline"}`}>
-              {chat.user.status === "online" ? "Online" : "Offline"}
+            <span className={`status ${usersStatus[chat.user.id] === "online" ? "online" : "offline"}`}>
+              {usersStatus[chat.user.id] === "online" ? "Online" : "Offline"}
             </span>
             <p>{chat.lastMessage}</p>
           </div>
