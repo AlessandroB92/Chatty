@@ -12,10 +12,11 @@ const useUserStatus = () => {
       if (user) {
         setUser(user);
 
-        // Imposta l'utente come online su Firestore
+        // Imposta l'utente come online su Firestore e aggiorna l'ultimo accesso
         await updateDoc(doc(db, "users", user.uid), {
           status: "online",
           lastActive: serverTimestamp(),
+          lastAccess: serverTimestamp(),  // Salva l'ultimo accesso
         });
 
         // Listener per aggiornamenti in tempo reale sullo stato online di tutti gli utenti
@@ -25,7 +26,7 @@ const useUserStatus = () => {
             let usersStatus = {};
             snapshot.docs.forEach((doc) => {
               const data = doc.data();
-              usersStatus[doc.id] = data.status; // Salva lo stato online di ogni utente
+              usersStatus[doc.id] = data;  // Salva lo stato e l'ultimo accesso di ogni utente
             });
             setUsersStatus(usersStatus); // Aggiorna lo stato in tempo reale
           }
