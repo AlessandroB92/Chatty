@@ -71,7 +71,7 @@
 .status {
   width: 3.5rem;
   font-size: 0.75rem;
-  padding: 0.125rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 0.75rem;
 }
 
@@ -85,4 +85,9 @@
   text-align: center;
   background-color: #ff1100; /* Rosso per offline */
   color: white;
+}
+
+.lastAccess{
+  color: #dddddd73;
+  font-size: 0.75rem;
 }

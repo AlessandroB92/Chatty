@@ -38,6 +38,7 @@ const ChatList = () => {
   const [chats, setChats] = useState([]);
   const [addMode, setAddMode] = useState(false);
   const [input, setInput] = useState("");
+  const [selectedChat, setSelectedChat] = useState(null); // Stato per tracciare la chat selezionata
 
   const { currentUser } = useUserStore();
   const { chatId, changeChat } = useChatStore();
@@ -86,6 +87,7 @@ const ChatList = () => {
       await updateDoc(userChatRef, {
         chats: userChats,
       });
+      setSelectedChat(chat.chatId); // Imposta la chat selezionata
       changeChat(chat.chatId, chat.user);
     } catch (err) {
       console.log(err);
@@ -120,7 +122,8 @@ const ChatList = () => {
           key={chat.chatId}
           onClick={() => handleSelect(chat)}
           style={{
-            backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
+            backgroundColor:
+              chat.chatId === selectedChat ? "#dddddd73" : chat?.isSeen ? "transparent" : "#5183fe", // Evidenzia la chat selezionata
           }}
         >
           <img
@@ -156,3 +159,4 @@ const ChatList = () => {
 };
 
 export default ChatList;
+
