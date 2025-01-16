@@ -9,36 +9,33 @@ import {
 } from "firebase/firestore";
 import "./addUser.css";
 import { db } from "../../../../lib/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../../../../lib/userStore";
 
 const AddUser = ({ setAddMode }) => {
   const [users, setUsers] = useState([]);
   const { currentUser } = useUserStore();
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const username = formData.get("username").toLowerCase();
+  useEffect(() => {
+    // Funzione per recuperare tutti gli utenti
+    const fetchUsers = async () => {
+      try {
+        const userRef = collection(db, "users");
+        const querySnapshot = await getDocs(userRef);
 
-    try {
-      const userRef = collection(db, "users");
+        // Filtro per evitare di mostrare l'utente attualmente loggato
+        const allUsers = querySnapshot.docs
+          .filter((doc) => doc.id !== currentUser.id)
+          .map((doc) => ({ id: doc.id, ...doc.data() }));
 
-      const querySnapshot = await getDocs(userRef);
-
-      const foundUsers = querySnapshot.docs.filter((doc) =>
-        doc.data().username.toLowerCase().includes(username)
-      );
-
-      if (foundUsers.length > 0) {
-        setUsers(foundUsers.map((doc) => ({ id: doc.id, ...doc.data() })));
-      } else {
-        setUsers([]);
+        setUsers(allUsers);
+      } catch (err) {
+        console.error("Errore nel recupero degli utenti:", err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    };
+
+    fetchUsers();
+  }, [currentUser.id]);
 
   const handleAdd = async (selectedUser) => {
     const chatRef = collection(db, "chats");
@@ -72,29 +69,28 @@ const AddUser = ({ setAddMode }) => {
 
       setAddMode(false);
     } catch (err) {
-      console.log(err);
+      console.error("Errore durante l'aggiunta dell'utente:", err);
     }
   };
 
   return (
     <div className="addUser">
-      <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Username" name="username" />
-        <button>Cerca</button>
-      </form>
-      {users.length > 0 && (
-        <div className="users">
-          {users.map((u) => (
+      <h2>Seleziona un utente</h2>
+      <div className="users">
+        {users.length > 0 ? (
+          users.map((u) => (
             <div key={u.id} className="user">
               <div className="detail">
-                <img src={u.avatar || "./avatar.png"} alt="" />
+                <img src={u.avatar || "./avatar.png"} alt="Avatar" />
                 <span>{u.username}</span>
               </div>
-              <button onClick={() => handleAdd(u)}>Add User</button>
+              <button onClick={() => handleAdd(u)}>Aggiungi</button>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <p>Nessun utente trovato.</p>
+        )}
+      </div>
     </div>
   );
 };

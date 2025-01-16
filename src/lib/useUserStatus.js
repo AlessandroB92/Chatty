@@ -2,10 +2,61 @@ import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../lib/firebase";
 import { doc, updateDoc, serverTimestamp, onSnapshot, collection } from "firebase/firestore";
+import { toast } from 'react-toastify';  // Importa il toast
 
 const useUserStatus = () => {
   const [user, setUser] = useState(null);
   const [usersStatus, setUsersStatus] = useState({});  // Stato per memorizzare lo stato online di tutti gli utenti
+  const [lastActive, setLastActive] = useState(Date.now()); // Memorizza l'ultimo momento di attività
+
+  // Funzione per mostrare il toast di disconnessione
+  const showLogoutToast = () => {
+    toast.info("Sei stato disconnesso per inattività", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
+  useEffect(() => {
+    const handleActivity = () => {
+      setLastActive(Date.now()); // Reset del timer ogni volta che c'è attività
+    };
+
+    // Aggiungi listener per attività (mousemove, click, etc.)
+    window.addEventListener("keydown", handleActivity);
+    window.addEventListener("click", handleActivity);
+
+    const timeoutDuration = 8 * 60 * 60 * 1000; // 5 secondi di inattività per il logout
+    const inactivityTimeout = setTimeout(async () => {
+      if (Date.now() - lastActive >= timeoutDuration) {
+        if (user) {
+          // Mostra il toast prima del logout
+          showLogoutToast();
+
+          // Ritardo di 2 secondi per lasciare che il toast venga visualizzato prima di disconnettere
+          setTimeout(async () => {
+            // Esegui logout quando l'utente è inattivo per troppo tempo
+            await updateDoc(doc(db, "users", user.uid), {
+              status: "offline",  // Imposta l'utente come offline su Firestore
+            });
+            // Disconnetti l'utente
+            auth.signOut();
+          }, 3000); // Ritardo di 3 secondi
+        }
+      }
+    }, timeoutDuration);
+
+    // Rimuovi gli event listener al termine dell'effetto
+    return () => {
+      clearTimeout(inactivityTimeout);
+      window.removeEventListener("keydown", handleActivity);
+      window.removeEventListener("click", handleActivity);
+    };
+  }, [lastActive, user]); // Aggiorna quando c'è attività o l'utente cambia
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {

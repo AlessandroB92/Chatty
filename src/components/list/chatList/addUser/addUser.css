@@ -1,8 +1,9 @@
 .addUser {
-  width: max-content;
+  text-align: center;
+  max-width: 26.25rem;
   height: max-content;
   padding: 1.875rem;
-  background-color: rgba(17, 25, 40, 0.65);
+  background-color: rgb(16, 46, 75);
   border-radius: 0.625rem;
   position: absolute;
   top: 0;
@@ -10,6 +11,14 @@
   left: 0;
   right: 0;
   margin: auto;
+  -webkit-box-shadow: 5px 5px 10px 0px #000000;
+  box-shadow: 5px 5px 10px 0px #000000;
+
+  h2 {
+    padding: 0.625rem 0.625rem 2.5rem;
+    color: rgb(255, 255, 255);
+    border-bottom: 1px solid gray;
+  }
 
   form {
     display: flex;
@@ -33,17 +42,25 @@
   }
 
   .user {
-    margin-top: 3.125rem;
+    margin-top: 2.1875rem;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: rgba(14, 23, 42, 0.711);
+    border-top-left-radius: 0.625rem;
+    border-top-right-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    -webkit-box-shadow: 5px 5px 10px 0px #000000;
+    box-shadow: 5px 5px 10px 0px #000000;
 
     .detail {
       display: flex;
       align-items: center;
       gap: 1.25rem;
 
-      img{
+      img {
         width: 3.125rem;
         height: 3.125rem;
         border-radius: 50%;
@@ -51,13 +68,17 @@
       }
     }
 
-    button{
-        padding: 0.625rem;
+    button {
+      padding: 0.625rem;
       border-radius: 0.625rem;
       background-color: #1a73e8;
       color: white;
       border: none;
       cursor: pointer;
+
+      &:hover {
+        background-color: rgba(20, 73, 220, 0.796);
+      }
     }
   }
 }
