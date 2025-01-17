@@ -74,7 +74,7 @@
 
         .texts {
           p {
-            background-color: rgb(78, 78, 172);
+            background-color: #3353a2;
           }
         }
       }
@@ -100,12 +100,15 @@
 
         p {
           padding: 1.25rem;
-          background-color: rgba(2, 10, 24, 0.300);
-          border-radius: 1.25rem;
+          background-color: rgba(2, 10, 24, 0.3);
+          border: 2px solid rgb(96, 96, 96);
+          border-radius: 0.7rem;
           word-wrap: break-word;
           overflow-wrap: break-word;
           word-break: break-word;
           display: inline-block;
+          -webkit-box-shadow: 5px 5px 5px -5px #000000; 
+          box-shadow: 5px 5px 5px -5px #000000;
         }
 
         span {
@@ -169,12 +172,16 @@
     }
 
     .sendButton {
-      background-color: #5183fe;
       border: none;
       color: white;
       padding: 0.625rem 1.25rem;
       border-radius: 0.3125rem;
       cursor: pointer;
+      background-color: rgba(71, 101, 182, 0.979);
+
+      &:hover {
+        background-color: rgba(59, 117, 233, 0.884);
+      }
 
       &:disabled {
         background-color: #5182fe95;

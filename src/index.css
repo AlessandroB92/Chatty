@@ -51,8 +51,8 @@ body {
 }
 
 button{
-  -webkit-box-shadow: 5px 5px 10px -2px #000000; 
-  box-shadow: 5px 5px 10px -2px #000000;
+  -webkit-box-shadow: 5px 5px 5px -5px #000000; 
+  box-shadow: 5px 5px 5px -5px #000000;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 button:active {

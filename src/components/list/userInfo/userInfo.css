@@ -16,35 +16,30 @@
       object-fit: cover;
     }
   }
-  .icons{
+  .icons {
     display: flex;
     gap: 1.25rem;
 
-    img{
-        width: 1.25rem;
-        height: 1.25rem;
+    img {
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 }
 
 button {
   padding: 0.9375rem;
-  background-color: rgba(230, 74, 105, 0.553);
   color: white;
   border: none;
   border-radius: 0.3125rem;
   cursor: pointer;
 
-  &:hover{
-    background-color: rgba(220, 20, 60, 0.796);
-  }
-
-  &.logout{
+  &.logout {
     padding: 0.625rem;
-    background-color: rgba(74, 126, 230, 0.553);
+    background-color: rgba(71, 101, 182, 0.979);
 
-    &:hover{
-        background-color: rgba(20, 73, 220, 0.796);
+    &:hover {
+      background-color: rgba(59, 117, 233, 0.884);
     }
   }
 }
