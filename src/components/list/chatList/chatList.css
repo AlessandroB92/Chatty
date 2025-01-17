@@ -1,6 +1,10 @@
 .chatList {
   flex: 1;
-  overflow-y: auto;
+
+  .listContainer{
+    height: 39.375rem;
+    overflow: auto;
+  }
 
   .search {
     display: flex;
@@ -41,6 +45,7 @@
   .item {
     display: flex;
     align-items: center;
+    margin: 0.625rem;
     gap: 1.25rem;
     padding: 1rem;
     cursor: pointer;
@@ -77,7 +82,7 @@
   font-size: 0.75rem;
   padding: 0.3rem 0.5rem;
   border-radius: 0.75rem;
-  border: 2px solid whitesmoke;
+  border: 0.125rem solid whitesmoke;
 }
 
 .status.online {

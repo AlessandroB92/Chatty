@@ -116,43 +116,45 @@ const ChatList = () => {
           onClick={() => setAddMode((prev) => !prev)}
         />
       </div>
+      <div className="listContainer">
       {filteredChats.map((chat) => (
-        <div
-          className="item"
-          key={chat.chatId}
-          onClick={() => handleSelect(chat)}
-          style={{
-            backgroundColor:
-              chat.chatId === selectedChat ? "#dddddd73" : chat?.isSeen ? "transparent" : "#5183fe", // Evidenzia la chat selezionata
-          }}
-        >
-          <img
-            src={
-              chat.user.blocked.includes(currentUser.id)
-                ? "./avatar.png"
-                : chat.user.avatar || "./avatar.png"
-            }
-            alt=""
-          />
-          <div className="texts">
-            <span>
-              {chat.user.blocked.includes(currentUser.id)
-                ? "User"
-                : chat.user.username}
-            </span>
-            <span className={`status ${usersStatus[chat.user.id]?.status === "online" ? "online" : "offline"}`}>
-              {usersStatus[chat.user.id]?.status === "online" ? "Online" : "Offline"}
-            </span>
-            <p>{chat.lastMessage}</p>
-            <p className="lastAccess">
-              Ultimo accesso:{" "}
-              {usersStatus[chat.user.id]?.lastAccess
-                ? formatLastAccess(usersStatus[chat.user.id].lastAccess)
-                : "N/A"}
-            </p>
-          </div>
-        </div>
+            <div
+              className="item"
+              key={chat.chatId}
+              onClick={() => handleSelect(chat)}
+              style={{
+                backgroundColor:
+                  chat.chatId === selectedChat ? "#dddddd73" : chat?.isSeen ? "transparent" : "#5183fe", // Evidenzia la chat selezionata
+              }}
+            >
+              <img
+                src={
+                  chat.user.blocked.includes(currentUser.id)
+                    ? "./avatar.png"
+                    : chat.user.avatar || "./avatar.png"
+                }
+                alt=""
+              />
+              <div className="texts">
+                <span>
+                  {chat.user.blocked.includes(currentUser.id)
+                    ? "User"
+                    : chat.user.username}
+                </span>
+                <span className={`status ${usersStatus[chat.user.id]?.status === "online" ? "online" : "offline"}`}>
+                  {usersStatus[chat.user.id]?.status === "online" ? "Online" : "Offline"}
+                </span>
+                <p>{chat.lastMessage}</p>
+                <p className="lastAccess">
+                  Ultimo accesso:{" "}
+                  {usersStatus[chat.user.id]?.lastAccess
+                    ? formatLastAccess(usersStatus[chat.user.id].lastAccess)
+                    : "N/A"}
+                </p>
+              </div>
+            </div>
       ))}
+      </div>
       {addMode && <AddUser setAddMode={setAddMode} />}
     </div>
   );
