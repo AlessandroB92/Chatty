@@ -2,7 +2,7 @@
   flex: 1;
 
   .listContainer{
-    height: 39.375rem;
+    height: 60vh;
     overflow: auto;
   }
 
